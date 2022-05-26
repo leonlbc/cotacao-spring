@@ -27,9 +27,13 @@ public class MoedaService {
                 .collect(Collectors.toList());
     }
 
-    public Moeda create(Moeda vo) {
-        vo.setId(UUID.randomUUID());
-        return moedaRepository.save(new MoedaModel(vo)).to();
+    public Moeda create(Moeda moeda) {
+        moeda.setId(UUID.randomUUID());
+        return moedaRepository.save(new MoedaModel(moeda)).to();
+    }
+
+    public boolean checkExists(Moeda moeda) {
+        return moedaRepository.findBySimbolo(moeda.getSimbolo()).isPresent();
     }
 
     public Moeda findBySimbolo(String simbolo) {

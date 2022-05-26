@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "moeda")
@@ -15,9 +16,11 @@ public class MoedaModel {
     @Column(name = "id_moeda")
     private String idMoeda;
 
+    @NotBlank(message = "Nome da moeda")
     @Column(name = "tx_nome")
     private String txNome;
 
+    @NotBlank(message = "Simbolo da moeda")
     @Column(name = "tx_simbolo")
     private String txSimbolo;
 
