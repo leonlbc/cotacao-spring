@@ -15,6 +15,9 @@ public class CambioResource {
     @Autowired
     private MoedaService moedaService;
 
+    @Autowired
+    private CotacaoService cotacaoService;
+
     @GetMapping("/moeda")
     public List<Moeda> listMoeda() {
         return moedaService.listaAll();
@@ -23,6 +26,12 @@ public class CambioResource {
     @GetMapping("/moeda/{simbolo}")
     public Moeda findMoedaBySimbolo(@PathVariable String simbolo) {
         return moedaService.findBySimbolo(simbolo);
+    }
+
+    @GetMapping("/cotacao/{simbolo}")
+    public Cotacao findCotacaoBySimbolo(@PathVariable String simbolo) {
+        Moeda findBySimbolo = moedaService.findBySimbolo(simbolo);
+        return cotacaoService.findById(findBySimbolo.getId());
     }
 
     @PostMapping("/moeda")

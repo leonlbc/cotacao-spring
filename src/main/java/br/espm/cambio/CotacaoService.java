@@ -31,11 +31,12 @@ public class CotacaoService {
         vo.setId(UUID.randomUUID());
         return cotacaoRepository.save(new CotacaoModel(vo)).to();
     }
-
-    public Cotacao findBySimbolo(String simbolo) {
-        return cotacaoRepository.findBySimbolo(simbolo)
+    
+    public Cotacao findById(UUID id) {
+        String idString = id.toString();
+        return cotacaoRepository.findById(idString)
                     .map(CotacaoModel::to)
                     .orElse(null);
     }
-    
+
 }

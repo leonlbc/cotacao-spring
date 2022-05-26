@@ -1,18 +1,20 @@
 package br.espm.cambio;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
 public class Cotacao {
     private UUID id;
     private UUID idMoeda;
-    private String dtData;
-    private float vrValor;
+    private Date dtData;
+    private BigDecimal vrValor;
 
     public UUID getId(){
         return id;
     }
 
-    public String getDtData() {
+    public Date getDtData() {
         return dtData;
     }
 
@@ -20,7 +22,7 @@ public class Cotacao {
         return idMoeda;
     }
 
-    public float getVrValor() {
+    public BigDecimal getVrValor() {
         return vrValor;
     }
 
@@ -28,7 +30,7 @@ public class Cotacao {
         this.id = id;
     }
 
-    public void setDtData(String dtData) {
+    public void setDtData(Date dtData) {
         this.dtData = dtData;
     }
 
@@ -36,7 +38,7 @@ public class Cotacao {
         this.idMoeda = idMoeda;
     }
 
-    public void setVrValor(float vrValor) {
+    public void setVrValor(BigDecimal vrValor) {
         this.vrValor = vrValor;
     }
 }
