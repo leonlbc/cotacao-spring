@@ -30,8 +30,8 @@ public class CambioResource {
 
     @GetMapping("/cotacao/{simbolo}")
     public Cotacao findCotacaoBySimbolo(@PathVariable String simbolo) {
-        Moeda findBySimbolo = moedaService.findBySimbolo(simbolo);
-        return cotacaoService.findById(findBySimbolo.getId());
+        Moeda moeda = moedaService.findBySimbolo(simbolo);
+        return cotacaoService.findById(moeda.getId());
     }
 
     @PostMapping("/moeda")
