@@ -9,32 +9,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /* 
- * Esse e o microservico de moeda
+ * Esse e o microservico de cotacao
  */
 @Component
-public class MoedaService {
+public class CotacaoService {
 
     @Autowired
-    private MoedaRepository moedaRepository;
+    private CotacaoRepository cotacaoRepository;
 
-    public List<Moeda> listaAll() {
+    public List<Cotacao> listaAll() {
         return StreamSupport
                 // Transforma de iteravel para lista
-                .stream(moedaRepository.findAll().spliterator(), false)
+                .stream(cotacaoRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList())
                 // Transforma de Model para Objeto
-                .stream().map(MoedaModel::to)
+                .stream().map(CotacaoModel::to)
                 .collect(Collectors.toList());
     }
 
-    public Moeda create(Moeda vo) {
+    public Cotacao create(Cotacao vo) {
         vo.setId(UUID.randomUUID());
-        return moedaRepository.save(new MoedaModel(vo)).to();
+        return cotacaoRepository.save(new CotacaoModel(vo)).to();
     }
 
-    public Moeda findBySimbolo(String simbolo) {
-        return moedaRepository.findBySimbolo(simbolo)
-                    .map(MoedaModel::to)
+    public Cotacao findBySimbolo(String simbolo) {
+        return cotacaoRepository.findBySimbolo(simbolo)
+                    .map(CotacaoModel::to)
                     .orElse(null);
     }
     
