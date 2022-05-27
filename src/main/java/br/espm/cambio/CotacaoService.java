@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /* 
- * Esse e o microservico de cotacao
+ * Microservico de cotacao
  */
 @Component
 public class CotacaoService {
@@ -32,11 +32,15 @@ public class CotacaoService {
         return cotacaoRepository.save(new CotacaoModel(vo)).to();
     }
     
-    public Cotacao findById(UUID id) {
+    public Cotacao findByMoedaId(UUID id) {
         String idString = id.toString();
-        return cotacaoRepository.findById(idString)
+        return cotacaoRepository.findByMoedaId(idString)
                     .map(CotacaoModel::to)
                     .orElse(null);
+    }
+
+    public boolean checkExists(Cotacao cotacao) {
+        return cotacaoRepository.findByDate(cotacao.getDtData()).isPresent();
     }
 
 }

@@ -1,15 +1,13 @@
 package br.espm.cambio;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Cotacao")
@@ -24,8 +22,7 @@ public class CotacaoModel {
     private String idMoeda;
 
     @Column(name = "dt_data")
-    @Temporal(TemporalType.DATE)
-    private Date dtData;
+    private LocalDate dtData;
 
     @Column(name = "vr_valor")
     private BigDecimal vrValor;
