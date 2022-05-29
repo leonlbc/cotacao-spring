@@ -1,4 +1,4 @@
-package br.espm.cambio;
+package br.espm.cambio.Moeda;
 
 import java.util.UUID;
 

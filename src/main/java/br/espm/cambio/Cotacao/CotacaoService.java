@@ -1,10 +1,9 @@
-package br.espm.cambio;
+package br.espm.cambio.Cotacao;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +39,8 @@ public class CotacaoService {
     }
 
     public boolean checkExists(Cotacao cotacao) {
-        return cotacaoRepository.findByDate(cotacao.getDtData()).isPresent();
+        return cotacaoRepository.findByDate(cotacao.getDtData(),
+                 cotacao.getIdMoeda().toString()).isPresent();
     }
 
 }

@@ -1,4 +1,4 @@
-package br.espm.cambio;
+package br.espm.cambio.Cotacao;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
@@ -12,10 +12,10 @@ public interface CotacaoRepository extends CrudRepository<CotacaoModel, String> 
     @Override
     Iterable<CotacaoModel> findAll();
     
-    @Query("SELECT m from CotacaoModel m WHERE UPPER(m.dtData) = UPPER(:data)")
-    Optional<CotacaoModel> findByDate(@Param("data") LocalDate dtData);
+    @Query("SELECT c from CotacaoModel c WHERE UPPER(c.dtData) = UPPER(:data) and c.idMoeda = :idMoeda")
+    Optional<CotacaoModel> findByDate(@Param("data") LocalDate dtData, @Param("idMoeda") String idMoeda);
 
-    @Query("SELECT m from CotacaoModel m WHERE UPPER(m.idMoeda) = UPPER(:idMoeda)")
+    @Query("SELECT c from CotacaoModel c WHERE UPPER(c.idMoeda) = UPPER(:idMoeda)")
     Optional<CotacaoModel> findByMoedaId(@Param("idMoeda") String idMoeda);
 
     Iterable<CotacaoModel> findAllByDtData(Date dtData);

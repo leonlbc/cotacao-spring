@@ -1,4 +1,4 @@
-package br.espm.cambio;
+package br.espm.cambio.Cotacao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Cotacao")
 public class CotacaoModel {
-
 
     @Id
     @Column(name = "id_cotacao")
@@ -29,13 +28,11 @@ public class CotacaoModel {
 
     public CotacaoModel(){}
 
-
     public CotacaoModel(Cotacao cotacao) {
         this.idCotacao = cotacao.getId().toString();
         this.idMoeda = cotacao.getIdMoeda().toString();
         this.dtData = cotacao.getDtData();
         this.vrValor = cotacao.getVrValor();
-
     }
 
     public Cotacao to(){

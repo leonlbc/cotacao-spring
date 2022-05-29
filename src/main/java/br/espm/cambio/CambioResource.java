@@ -1,10 +1,10 @@
 package br.espm.cambio;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.espm.cambio.Cotacao.Cotacao;
+import br.espm.cambio.Cotacao.CotacaoParcial;
+import br.espm.cambio.Cotacao.CotacaoService;
+import br.espm.cambio.Moeda.Moeda;
+import br.espm.cambio.Moeda.MoedaService;
 
 @RestController
 public class CambioResource {
@@ -41,7 +47,7 @@ public class CambioResource {
     }
 
     @PostMapping("/moeda")
-    public ResponseEntity<String> save(@RequestBody(required = false) Moeda moeda) {
+    public ResponseEntity<String> save(@RequestBody Moeda moeda) {
         if (moedaService.checkExists(moeda)) {
             return ResponseEntity.badRequest().body("Ja existe uma moeda com esse simbolo");};
         moedaService.create(moeda);
@@ -49,21 +55,18 @@ public class CambioResource {
     }
 
     @RequestMapping(value = "/cotacao/{simbolo}/{ano}/{mes}/{dia}", method=RequestMethod.POST)
-    public ResponseEntity<String> save(@PathVariable("simbolo") String simbolo,
-                                         @PathVariable("ano") String ano, @PathVariable("mes") String mes,
-                                         @PathVariable("dia") String dia, @RequestBody Map<String, String> valor) {
-        String id = moedaService.findBySimbolo(simbolo).getId().toString();
-        //Invalida requisicao se nao existe alguma moeda com o simbolo
+    public ResponseEntity<String> save(@PathVariable String simbolo,@PathVariable String ano, @PathVariable String mes,
+                                         @PathVariable String dia, @RequestBody CotacaoParcial cotp) {
+        UUID id = moedaService.findBySimbolo(simbolo).getId();
         if (id == null) {return ResponseEntity.badRequest().body("Nao ha nenhuma moeda com esse simbolo");}
         try {
-            //Formata data e valor
-            LocalDate data = LocalDate.parse(ano+"-"+mes+"-"+dia); 
-            BigDecimal valorBigD = new BigDecimal(valor.get("valor"));
-            //Instancia cotacao e invalida se ja existe para a mesma data
-            Cotacao cotacao = new Cotacao(id, data, valorBigD);
+            LocalDate data = LocalDate.parse(ano+"-"+mes+"-"+dia);
+            Cotacao cotacao = new Cotacao();
+            cotacao.setVrValor(cotp.getValor());
+            cotacao.setDtData(data);
+            cotacao.setIdMoeda(id);
             if (cotacaoService.checkExists(cotacao)) {
-                return ResponseEntity.badRequest().body("Ja existe uma cotacao para essa data");};
-            //Cria cotacao
+                return ResponseEntity.badRequest().body("Ja existe uma cotacao para esse simbolo nessa data");};
             cotacaoService.create(cotacao);
             return ResponseEntity.ok().body("Cotacao criada com sucesso");
         } catch (DateTimeParseException e) {
@@ -73,6 +76,5 @@ public class CambioResource {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("erro");
         }
-       
     }
 }
