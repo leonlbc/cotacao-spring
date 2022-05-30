@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +23,7 @@ import br.espm.cambio.Cotacao.CotacaoService;
 import br.espm.cambio.Moeda.Moeda;
 import br.espm.cambio.Moeda.MoedaService;
 
+@Validated
 @RestController
 public class CambioResource {
 
@@ -40,7 +44,7 @@ public class CambioResource {
     }
 
     @PostMapping("/moeda")
-    public void saveMoeda(@RequestBody Moeda moeda) {
+    public void saveMoeda(@RequestBody @Valid Moeda moeda) {
         moedaService.create(moeda);
     }
 
