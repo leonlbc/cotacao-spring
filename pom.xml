@@ -12,7 +12,7 @@
 	<artifactId>cambio</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cambio</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Cambio Application</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
