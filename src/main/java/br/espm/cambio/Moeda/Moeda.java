@@ -15,4 +15,10 @@ public class Moeda {
     @NotBlank
     private String simbolo;
 
+    public Moeda(){this.id = UUID.randomUUID();}
+    public Moeda(String nome, String simbolo){
+        this.nome = nome;
+        this.simbolo = simbolo;
+        this.id = UUID.randomUUID();
+    }
 }

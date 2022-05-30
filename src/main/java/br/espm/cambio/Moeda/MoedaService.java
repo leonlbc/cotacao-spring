@@ -1,12 +1,14 @@
 package br.espm.cambio.Moeda;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import br.espm.cambio.Exception.AlreadyExistsException;
 
 /* 
  * Esse e o microservico de moeda
@@ -28,18 +30,22 @@ public class MoedaService implements IMoedaService{
     }
 
     public Moeda create(Moeda moeda) {
-        moeda.setId(UUID.randomUUID());
-        return moedaRepository.save(new MoedaModel(moeda)).to();
-    }
-
-    public boolean checkExists(Moeda moeda) {
-        return moedaRepository.findBySimbolo(moeda.getSimbolo()).isPresent();
+        Moeda existingMoeda = moedaRepository.findById(moeda.getSimbolo())
+            .map(MoedaModel::to)
+            .orElse(null);
+        if (existingMoeda == null) {
+            return moedaRepository.save(new MoedaModel(moeda)).to();
+        }
+        else {
+            throw new AlreadyExistsException();
+        }
     }
 
     public Moeda findBySimbolo(String simbolo) {
         return moedaRepository.findBySimbolo(simbolo)
-                    .map(MoedaModel::to)
-                    .orElse(null);
+                    .map(MoedaModel::to).orElseThrow(
+                        () -> new NoSuchElementException("Nenhuma moeda com esse simbolo")
+                        );
     }
     
 }

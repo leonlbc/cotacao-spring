@@ -10,5 +10,4 @@ public interface ICotacaoService {
     List<Cotacao> listaAll();
     Cotacao create(Cotacao co);
     Cotacao findByMoedaId(UUID id);
-    boolean checkExists(Cotacao cotacao);
 }

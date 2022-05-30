@@ -1,7 +1,6 @@
 package br.espm.cambio;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,11 +40,8 @@ public class CambioResource {
     }
 
     @PostMapping("/moeda")
-    public ResponseEntity<String> saveMoeda(@RequestBody Moeda moeda) {
-        if (moedaService.checkExists(moeda)) {
-            return ResponseEntity.badRequest().body("Ja existe uma moeda com esse simbolo");};
+    public void saveMoeda(@RequestBody Moeda moeda) {
         moedaService.create(moeda);
-        return ResponseEntity.ok().body("Moeda criada com sucesso");
     }
 
     @GetMapping("/cotacao/{simbolo}")
@@ -55,26 +51,14 @@ public class CambioResource {
     }
 
     @RequestMapping(value = "/cotacao/{simbolo}/{ano}/{mes}/{dia}", method=RequestMethod.POST)
-    public ResponseEntity<String> saveCotacao(@PathVariable String simbolo,@PathVariable String ano, @PathVariable String mes,
+    public void saveCotacao(@PathVariable String simbolo,@PathVariable String ano, @PathVariable String mes,
                                          @PathVariable String dia, @RequestBody CotacaoParcial cotp) {
-        UUID id = moedaService.findBySimbolo(simbolo).getId();
-        if (id == null) {return ResponseEntity.badRequest().body("Nao ha nenhuma moeda com esse simbolo");}
-        try {
-            LocalDate data = LocalDate.parse(ano+"-"+mes+"-"+dia);
-            Cotacao cotacao = new Cotacao();
-            cotacao.setVrValor(cotp.getValor());
-            cotacao.setDtData(data);
-            cotacao.setIdMoeda(id);
-            if (cotacaoService.checkExists(cotacao)) {
-                return ResponseEntity.badRequest().body("Ja existe uma cotacao para esse simbolo nessa data");};
-            cotacaoService.create(cotacao);
-            return ResponseEntity.ok().body("Cotacao criada com sucesso");
-        } catch (DateTimeParseException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("Data invalida");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("erro");
-        }
+        //Procura Moeda para verificar se existe
+        UUID idMoeda = moedaService.findBySimbolo(simbolo).getId();
+        //Tenta fazer parse da data
+        LocalDate data = Cotacao.parseData(ano, mes, dia);
+        //Instancia nova cotacao e tenta salva-la
+        Cotacao cotacao = new Cotacao(idMoeda, data, cotp.getValor());
+        cotacaoService.create(cotacao);
     }
 }
