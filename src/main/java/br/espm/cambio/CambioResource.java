@@ -47,7 +47,7 @@ public class CambioResource {
     }
 
     @PostMapping("/moeda")
-    public ResponseEntity<String> save(@RequestBody Moeda moeda) {
+    public ResponseEntity<String> saveMoeda(@RequestBody Moeda moeda) {
         if (moedaService.checkExists(moeda)) {
             return ResponseEntity.badRequest().body("Ja existe uma moeda com esse simbolo");};
         moedaService.create(moeda);
@@ -55,7 +55,7 @@ public class CambioResource {
     }
 
     @RequestMapping(value = "/cotacao/{simbolo}/{ano}/{mes}/{dia}", method=RequestMethod.POST)
-    public ResponseEntity<String> save(@PathVariable String simbolo,@PathVariable String ano, @PathVariable String mes,
+    public ResponseEntity<String> saveCotacao(@PathVariable String simbolo,@PathVariable String ano, @PathVariable String mes,
                                          @PathVariable String dia, @RequestBody CotacaoParcial cotp) {
         UUID id = moedaService.findBySimbolo(simbolo).getId();
         if (id == null) {return ResponseEntity.badRequest().body("Nao ha nenhuma moeda com esse simbolo");}
