@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * Esse e o microservico de moeda
  */
 @Component
-public class MoedaService {
+public class MoedaService implements IMoedaService{
 
     @Autowired
     private MoedaRepository moedaRepository;
