@@ -40,18 +40,18 @@ public class CambioResource {
         return moedaService.findBySimbolo(simbolo);
     }
 
-    @GetMapping("/cotacao/{simbolo}")
-    public Cotacao findCotacaoBySimbolo(@PathVariable String simbolo) {
-        Moeda moeda = moedaService.findBySimbolo(simbolo);
-        return cotacaoService.findByMoedaId(moeda.getId());
-    }
-
     @PostMapping("/moeda")
     public ResponseEntity<String> saveMoeda(@RequestBody Moeda moeda) {
         if (moedaService.checkExists(moeda)) {
             return ResponseEntity.badRequest().body("Ja existe uma moeda com esse simbolo");};
         moedaService.create(moeda);
         return ResponseEntity.ok().body("Moeda criada com sucesso");
+    }
+
+    @GetMapping("/cotacao/{simbolo}")
+    public Cotacao findCotacaoBySimbolo(@PathVariable String simbolo) {
+        Moeda moeda = moedaService.findBySimbolo(simbolo);
+        return cotacaoService.findByMoedaId(moeda.getId());
     }
 
     @RequestMapping(value = "/cotacao/{simbolo}/{ano}/{mes}/{dia}", method=RequestMethod.POST)
