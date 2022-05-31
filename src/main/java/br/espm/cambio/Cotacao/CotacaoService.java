@@ -15,7 +15,7 @@ import br.espm.cambio.Exception.AlreadyExistsException;
  * Microservico de cotacao
  */
 @Component
-public class CotacaoService implements ICotacaoService{
+public class CotacaoService{
 
     @Autowired
     private CotacaoRepository cotacaoRepository;

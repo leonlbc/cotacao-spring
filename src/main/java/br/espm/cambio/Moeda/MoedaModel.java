@@ -35,11 +35,14 @@ public class MoedaModel {
     }
 
     public Moeda to() {
-        Moeda moeda = new Moeda();
-        moeda.setId(UUID.fromString(this.idMoeda));
-        moeda.setNome(this.txNome);
-        moeda.setSimbolo(this.txSimbolo);
-        return moeda;
+        if (this.idMoeda != null && this.txNome != null && this.txSimbolo != null) {
+            Moeda moeda = new Moeda();
+            moeda.setId(UUID.fromString(this.idMoeda));
+            moeda.setNome(this.txNome);
+            moeda.setSimbolo(this.txSimbolo);
+            return moeda;
+        }
+        return null;
     }
 
 }

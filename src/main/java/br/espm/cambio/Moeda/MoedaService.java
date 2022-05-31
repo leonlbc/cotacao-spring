@@ -14,25 +14,22 @@ import br.espm.cambio.Exception.AlreadyExistsException;
  * Esse e o microservico de moeda
  */
 @Component
-public class MoedaService implements IMoedaService{
+public class MoedaService{
 
     @Autowired
     private MoedaRepository moedaRepository;
 
     public List<Moeda> listaAll() {
-        return StreamSupport
-                // Transforma de iteravel para lista
-                .stream(moedaRepository.findAll().spliterator(), false)
+        return StreamSupport.stream(
+                moedaRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList())
-                // Transforma de Model para Objeto
-                .stream().map(MoedaModel::to)
-                .collect(Collectors.toList());
+                .stream().map(MoedaModel::to).collect(Collectors.toList());
     }
 
     public Moeda create(Moeda moeda) {
         Moeda existingMoeda = moedaRepository.findById(moeda.getSimbolo())
-            .map(MoedaModel::to)
-            .orElse(null);
+        .map(MoedaModel::to)
+        .orElse(null);
         if (existingMoeda == null) {
             return moedaRepository.save(new MoedaModel(moeda)).to();
         }
