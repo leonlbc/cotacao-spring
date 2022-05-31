@@ -3,6 +3,7 @@
 <h5>__REQUIREMENTS__<br>
 Java 11+<br>
 Mysql<br>
+Maven<br>
 
 
 <h5>__RUN__<br>
