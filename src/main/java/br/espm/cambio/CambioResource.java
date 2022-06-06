@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.espm.cambio.Cotacao.Cotacao;
 import br.espm.cambio.Cotacao.CotacaoParcial;
+import br.espm.cambio.Cotacao.CotacaoResponse;
 import br.espm.cambio.Cotacao.CotacaoService;
 import br.espm.cambio.Moeda.Moeda;
 import br.espm.cambio.Moeda.MoedaService;
@@ -47,10 +49,16 @@ public class CambioResource {
         moedaService.create(moeda);
     }
 
-    @GetMapping("/cotacao/{simbolo}")
-    public Cotacao findCotacaoBySimbolo(@PathVariable String simbolo) {
+    @DeleteMapping("/moeda/{simbolo}")
+    public void deleteMoeda(@PathVariable String simbolo){
         Moeda moeda = moedaService.findBySimbolo(simbolo);
-        return cotacaoService.findByMoedaId(moeda.getId());
+        moedaService.delete(moeda);
+    }
+
+    @GetMapping("/cotacao/{simbolo}")
+    public CotacaoResponse findCotacaoBySimbolo(@PathVariable String simbolo) {
+        Moeda moeda = moedaService.findBySimbolo(simbolo);
+        return cotacaoService.findByMoedaId(moeda.getId()).toResponse();
     }
 
     @RequestMapping(value = "/cotacao/{simbolo}/{ano}/{mes}/{dia}", method=RequestMethod.POST)

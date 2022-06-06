@@ -31,16 +31,16 @@ public class CotacaoModel {
     public CotacaoModel(Cotacao cotacao) {
         this.idCotacao = cotacao.getId().toString();
         this.idMoeda = cotacao.getIdMoeda().toString();
-        this.dtData = cotacao.getDtData();
-        this.vrValor = cotacao.getVrValor();
+        this.dtData = cotacao.getData();
+        this.vrValor = cotacao.getValor();
     }
 
     public Cotacao to(){
         Cotacao cotacao = new Cotacao();
         cotacao.setId(UUID.fromString(this.idMoeda));
         cotacao.setIdMoeda(UUID.fromString(this.idMoeda));
-        cotacao.setDtData(this.dtData);
-        cotacao.setVrValor(this.vrValor);
+        cotacao.setData(this.dtData);
+        cotacao.setValor(this.vrValor);
         return cotacao;
      }
     }   

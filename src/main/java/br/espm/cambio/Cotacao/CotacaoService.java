@@ -31,7 +31,7 @@ public class CotacaoService{
     }
 
     public Cotacao create(Cotacao cotacao) {
-        Cotacao existingCotacao = cotacaoRepository.findByDate(cotacao.getDtData(), cotacao.getIdMoeda().toString())
+        Cotacao existingCotacao = cotacaoRepository.findByDate(cotacao.getData(), cotacao.getIdMoeda().toString())
             .map(CotacaoModel::to)
             .orElse(null);
         if (existingCotacao == null) {

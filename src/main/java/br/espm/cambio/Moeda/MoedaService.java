@@ -26,12 +26,12 @@ public class MoedaService{
                 .stream().map(MoedaModel::to).collect(Collectors.toList());
     }
 
-    public Moeda create(Moeda moeda) {
+    public void create(Moeda moeda) {
         Moeda existingMoeda = moedaRepository.findById(moeda.getSimbolo())
         .map(MoedaModel::to)
         .orElse(null);
         if (existingMoeda == null) {
-            return moedaRepository.save(new MoedaModel(moeda)).to();
+            moedaRepository.save(new MoedaModel(moeda));
         }
         else {
             throw new AlreadyExistsException();
@@ -43,6 +43,10 @@ public class MoedaService{
                     .map(MoedaModel::to).orElseThrow(
                         () -> new NoSuchElementException("Nenhuma moeda com esse simbolo")
                         );
+    }
+
+    public void delete(Moeda moeda) {
+        moedaRepository.delete(new MoedaModel(moeda));
     }
     
 }

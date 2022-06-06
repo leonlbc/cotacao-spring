@@ -11,16 +11,16 @@ public class Cotacao {
     
     private UUID id;
     private UUID idMoeda;
-    private LocalDate dtData;
-    private BigDecimal vrValor;
+    private LocalDate data;
+    private BigDecimal valor;
 
     public Cotacao(){this.id = UUID.randomUUID();}
 
-    public Cotacao(UUID idMoeda,LocalDate dtData, BigDecimal vrValor){
+    public Cotacao(UUID idMoeda,LocalDate data, BigDecimal valor){
         this.id = UUID.randomUUID();
         this.idMoeda = idMoeda;
-        this.dtData = dtData;
-        this.vrValor = vrValor;
+        this.data = data;
+        this.valor = valor;
     }
 
     public static LocalDate parseData(String ano, String mes, String dia) {
@@ -31,5 +31,13 @@ public class Cotacao {
         } catch (Exception e) {
             throw new DateTimeParseException("Data invalida", data, 0);
         }
+    }
+
+    public CotacaoResponse toResponse(){
+        CotacaoResponse cotacaoResponse = new CotacaoResponse();
+        cotacaoResponse.setId(this.id);
+        cotacaoResponse.setData(this.data);
+        cotacaoResponse.setValor(this.valor);
+        return cotacaoResponse;
     }
 }
